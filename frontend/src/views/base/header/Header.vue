@@ -3,7 +3,7 @@
     <v-toolbar-title class="pl-0 mr-12 align-center relative bottom-2">
       <v-btn to="/" text>
         <div class="title">
-          <img class="header-logo relative top-5" src="/images/logo_small.png" />
+          <img class="header-logo relative top-5" src="/images/logo_small.png" style="width: 25px; height: 25px;" alt="작은 로고" />
           <span>RUNNINGMAP</span>
         </div>
       </v-btn>
@@ -15,7 +15,7 @@
       <template slot="button">
         <div class="text-normal cursor-pointer mx-2 my-thumbnail-button">
           <v-avatar dark width="35" height="35">
-            <img src="https://avatars3.githubusercontent.com/u/4353846?v&amp;#x3D;4" />
+            <img src="https://avatars3.githubusercontent.com/u/4353846?v&amp;#x3D;4" alt="버튼 이미지" />
           </v-avatar>
           <div class="desktop-view d-inline-block">
             <span>{{ member.email.split('@')[0] }}</span>

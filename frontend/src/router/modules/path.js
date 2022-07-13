@@ -1,4 +1,4 @@
-import PathPage from '../../views/path/PathPage'
+const PathPage = () => import(/* webpackChunkName: "js/pages/path" */'../../views/path/PathPage')
 
 const pathRoutes = [
   {

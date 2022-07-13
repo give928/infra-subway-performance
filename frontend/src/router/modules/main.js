@@ -1,4 +1,4 @@
-import MainPage from '@/views/main/MainPage'
+const MainPage = () => import(/* webpackChunkName: "js/pages/main", webpackPrefetch: true */'@/views/main/MainPage')
 
 const mainRoutes = [
   {

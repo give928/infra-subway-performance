@@ -1,4 +1,4 @@
-import Favorites from '@/views/favorite/Favorites'
+const Favorites = () => import(/* webpackChunkName: "js/pages/favorite" */'@/views/favorite/Favorites')
 
 const favoriteRoutes = [
   {

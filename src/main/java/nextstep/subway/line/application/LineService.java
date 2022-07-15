@@ -8,6 +8,10 @@ import nextstep.subway.line.dto.LinesResponse;
 import nextstep.subway.line.dto.SectionRequest;
 import nextstep.subway.station.application.StationService;
 import nextstep.subway.station.domain.Station;
+import org.springframework.cache.annotation.CacheEvict;
+import org.springframework.cache.annotation.CachePut;
+import org.springframework.cache.annotation.Cacheable;
+import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -25,45 +29,54 @@ public class LineService {
         this.stationService = stationService;
     }
 
+    @CacheEvict(value = {"lines", "line-responses"}, allEntries = true)
     @Transactional
     public LineResponse saveLine(LineRequest request) {
         Station upStation = stationService.findById(request.getUpStationId());
         Station downStation = stationService.findById(request.getDownStationId());
-        Line persistLine = lineRepository.save(new Line(request.getName(), request.getColor(), upStation, downStation, request.getDistance()));
+        Line persistLine = lineRepository.save(
+                new Line(request.getName(), request.getColor(), upStation, downStation, request.getDistance()));
         return LineResponse.of(persistLine);
     }
 
+    @Cacheable("line-responses")
     public List<LinesResponse> findLineResponses() {
         List<Line> persistLines = lineRepository.findAll();
-        return persistLines.stream()
-                .map(LinesResponse::of)
-                .collect(Collectors.toList());
+        return persistLines.stream().map(LinesResponse::of).collect(Collectors.toList());
     }
 
+    @Cacheable("lines")
     public List<Line> findLines() {
         return lineRepository.findAll();
     }
 
+    @Cacheable(value = "line", key = "#id")
     public Line findLineById(Long id) {
         return lineRepository.findById(id).orElseThrow(RuntimeException::new);
     }
 
+    @Cacheable(value = "line-response", key = "#id")
     public LineResponse findLineResponseById(Long id) {
         Line persistLine = findLineById(id);
         return LineResponse.of(persistLine);
     }
 
+    @Caching(put = {@CachePut(value = "line", key = "#id")},
+            evict = {@CacheEvict(value = {"lines", "line-responses"}), @CacheEvict(value = "line-response", key = "#id")})
     @Transactional
-    public void updateLine(Long id, LineRequest lineUpdateRequest) {
+    public Line updateLine(Long id, LineRequest lineUpdateRequest) {
         Line persistLine = lineRepository.findById(id).orElseThrow(RuntimeException::new);
         persistLine.update(new Line(lineUpdateRequest.getName(), lineUpdateRequest.getColor()));
+        return persistLine;
     }
 
+    @Caching(evict = {@CacheEvict(value = {"lines", "line-responses"}), @CacheEvict(value = {"line", "line-response"}, key = "#id")})
     @Transactional
     public void deleteLineById(Long id) {
         lineRepository.deleteById(id);
     }
 
+    @Caching(evict = {@CacheEvict(value = {"lines"}), @CacheEvict(value = {"line", "line-response"}, key = "#lineId")})
     @Transactional
     public void addLineStation(Long lineId, SectionRequest request) {
         Line line = findLineById(lineId);
@@ -72,6 +85,7 @@ public class LineService {
         line.addLineSection(upStation, downStation, request.getDistance());
     }
 
+    @Caching(evict = {@CacheEvict(value = {"lines"}), @CacheEvict(value = {"line", "line-response"}, key = "#lineId")})
     @Transactional
     public void removeLineStation(Long lineId, Long stationId) {
         Line line = findLineById(lineId);

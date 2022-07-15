@@ -1,17 +1,17 @@
 package nextstep.subway.line.domain;
 
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import nextstep.subway.common.BaseEntity;
 import nextstep.subway.station.domain.Station;
 
 import javax.persistence.*;
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @Entity
 public class Line extends BaseEntity implements Serializable {
+    private static final long serialVersionUID = -1249015528403540198L;
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -19,8 +19,9 @@ public class Line extends BaseEntity implements Serializable {
     private String name;
     private String color;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "line", cascade = {CascadeType.PERSIST, CascadeType.MERGE}, orphanRemoval = true)
-    private List<Section> sections = new ArrayList<>();
+    private final List<Section> sections = new ArrayList<>();
 
     public Line() {
     }
@@ -69,13 +70,13 @@ public class Line extends BaseEntity implements Serializable {
             createSection(upLineStation.get(), downLineStation.get());
         }
 
-        upLineStation.ifPresent(it -> sections.remove(it));
-        downLineStation.ifPresent(it -> sections.remove(it));
+        upLineStation.ifPresent(sections::remove);
+        downLineStation.ifPresent(sections::remove);
     }
 
     public List<Station> getStations() {
         if (sections.isEmpty()) {
-            return Arrays.asList();
+            return Collections.emptyList();
         }
 
         return orderBySection();

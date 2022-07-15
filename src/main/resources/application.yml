@@ -1,7 +1,4 @@
 spring:
-  config:
-    activate:
-      on-profile: local
   jpa:
     properties:
       hibernate:
@@ -17,6 +14,34 @@ spring:
     baseline-on-migrate: true
     baseline-version: 1
     locations: classpath:/db/migration
+  cache:
+    type: redis
+    redis:
+      time-to-live: 60s
+  redis:
+    host: 127.0.0.1
+    port: 6379
+
+cache:
+  subway:
+    lines:
+      name: lines
+      ttl: 600
+    line:
+      name: line
+      ttl: 300
+    line-responses:
+      name: line-responses
+      ttl: 600
+    line-response:
+      name: line-response
+      ttl: 300
+    stations:
+      name: stations
+      ttl: 300
+    find-path:
+      name: find-path
+      ttl: 3600
 
 handlebars:
   suffix: .html

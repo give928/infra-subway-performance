@@ -1,4 +1,4 @@
-import MapPage from '../../views/map/MapPage'
+const MapPage = () => import(/* webpackChunkName: "js/pages/map" */'../../views/map/MapPage')
 
 const mapRoutes = [
   {

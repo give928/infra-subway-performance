@@ -1,4 +1,4 @@
-import StationPage from '@/views/station/StationPage'
+const StationPage = () => import(/* webpackChunkName: "js/pages/station" */'@/views/station/StationPage')
 
 const stationRoutes = [
   {

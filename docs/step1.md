@@ -18,7 +18,7 @@
         * default: 1 looping VUs for 1s (gracefulStop: 30s)
       
       
-      running (01.3s), 0/1 VUs, 1 complete and 0 interrupted iterations
+      running (01.0s), 0/1 VUs, 8 complete and 0 interrupted iterations
       default ✓ [======================================] 1 VUs  1s
       
            ✓ main status was 200
@@ -27,23 +27,23 @@
            ✓ favorite status was 200
            ✓ path status was 200
       
-           checks.........................: 100.00% ✓ 5        ✗ 0  
-           data_received..................: 7.2 kB  5.6 kB/s
-           data_sent......................: 1.2 kB  943 B/s
-           http_req_blocked...............: avg=47.63ms  min=0s     med=0s       max=238.16ms p(90)=142.89ms p(95)=190.52ms
-           http_req_connecting............: avg=801.99µs min=0s     med=0s       max=4.01ms   p(90)=2.4ms    p(95)=3.2ms   
-           http_req_duration..............: avg=209.38ms min=9.27ms med=215.43ms max=393.42ms p(90)=337.69ms p(95)=365.56ms
-             { expected_response:true }...: avg=209.38ms min=9.27ms med=215.43ms max=393.42ms p(90)=337.69ms p(95)=365.56ms
-           http_req_failed................: 0.00%   ✓ 0        ✗ 5  
-           http_req_receiving.............: avg=51.8µs   min=41µs   med=54µs     max=61µs     p(90)=59µs     p(95)=60µs    
-           http_req_sending...............: avg=147.4µs  min=52µs   med=138µs    max=235µs    p(90)=224.2µs  p(95)=229.59µs
-           http_req_tls_handshaking.......: avg=5.1ms    min=0s     med=0s       max=25.5ms   p(90)=15.3ms   p(95)=20.4ms  
-           http_req_waiting...............: avg=209.18ms min=9ms    med=215.16ms max=393.23ms p(90)=337.51ms p(95)=365.37ms
-           http_reqs......................: 5       3.880011/s
-           iteration_duration.............: avg=1.28s    min=1.28s  med=1.28s    max=1.28s    p(90)=1.28s    p(95)=1.28s   
-           iterations.....................: 1       0.776002/s
-           vus............................: 1       min=1      max=1
-           vus_max........................: 1       min=1      max=1
+           checks.........................: 100.00% ✓ 40        ✗ 0  
+           data_received..................: 25 kB   24 kB/s
+           data_sent......................: 5.4 kB  5.2 kB/s
+           http_req_blocked...............: avg=4.89ms   min=0s      med=0s      max=195.62ms p(90)=1µs      p(95)=1µs     
+           http_req_connecting............: avg=93.87µs  min=0s      med=0s      max=3.75ms   p(90)=0s       p(95)=0s      
+      ✓ http_req_duration..............: avg=21.11ms  min=4.96ms  med=13.2ms  max=95.8ms   p(90)=57.41ms  p(95)=63.01ms
+      { expected_response:true }...: avg=21.11ms  min=4.96ms  med=13.2ms  max=95.8ms   p(90)=57.41ms  p(95)=63.01ms
+      http_req_failed................: 0.00%   ✓ 0         ✗ 40
+      http_req_receiving.............: avg=33µs     min=8µs     med=34µs    max=134µs    p(90)=45.1µs   p(95)=54.19µs
+      http_req_sending...............: avg=74.52µs  min=24µs    med=51.5µs  max=620µs    p(90)=95.3µs   p(95)=126.04µs
+      http_req_tls_handshaking.......: avg=556.75µs min=0s      med=0s      max=22.27ms  p(90)=0s       p(95)=0s      
+      http_req_waiting...............: avg=21.01ms  min=4.86ms  med=13.15ms max=95.69ms  p(90)=57.29ms  p(95)=62.9ms  
+      http_reqs......................: 40      38.201803/s
+      iteration_duration.............: avg=130.71ms min=53.62ms med=58.17ms max=285.53ms p(90)=276.41ms p(95)=280.97ms
+      iterations.....................: 8       7.640361/s
+      vus............................: 1       min=1       max=1
+      vus_max........................: 1       min=1       max=1
       ```
   
     - Load Test
@@ -56,7 +56,7 @@
         * default: Up to 100 looping VUs for 1m10s over 7 stages (gracefulRampDown: 30s, gracefulStop: 30s)
       
       
-      running (1m10.1s), 000/100 VUs, 8970 complete and 0 interrupted iterations
+      running (1m10.0s), 000/100 VUs, 21998 complete and 0 interrupted iterations
       default ✓ [======================================] 000/100 VUs  1m10s
       
            ✓ main status was 200
@@ -65,63 +65,172 @@
            ✓ favorite status was 200
            ✓ path status was 200
       
-           checks.........................: 100.00% ✓ 44850     ✗ 0    
-           data_received..................: 23 MB   335 kB/s
-           data_sent......................: 5.5 MB  79 kB/s
-           http_req_blocked...............: avg=47.22µs  min=0s      med=0s       max=37.25ms  p(90)=1µs      p(95)=1µs     
-           http_req_connecting............: avg=8.81µs   min=0s      med=0s       max=12.4ms   p(90)=0s       p(95)=0s      
-           http_req_duration..............: avg=92.8ms   min=2.76ms  med=38.66ms  max=919.27ms p(90)=276.24ms p(95)=368.84ms
-             { expected_response:true }...: avg=92.8ms   min=2.76ms  med=38.66ms  max=919.27ms p(90)=276.24ms p(95)=368.84ms
-           http_req_failed................: 0.00%   ✓ 0         ✗ 44850
-           http_req_receiving.............: avg=21.73µs  min=5µs     med=17µs     max=1.56ms   p(90)=35µs     p(95)=47µs    
-           http_req_sending...............: avg=48.72µs  min=9µs     med=42µs     max=2.42ms   p(90)=77µs     p(95)=94µs    
-           http_req_tls_handshaking.......: avg=37.62µs  min=0s      med=0s       max=22.62ms  p(90)=0s       p(95)=0s      
-           http_req_waiting...............: avg=92.73ms  min=2.71ms  med=38.56ms  max=919.18ms p(90)=276.2ms  p(95)=368.77ms
-           http_reqs......................: 44850   640.0662/s
-           iteration_duration.............: avg=464.65ms min=72.49ms med=426.13ms max=1.68s    p(90)=856.42ms p(95)=972.94ms
-           iterations.....................: 8970    128.01324/s
-           vus............................: 11      min=1       max=100
-           vus_max........................: 100     min=100     max=100
-      
+           checks.........................: 100.00% ✓ 109990      ✗ 0     
+           data_received..................: 57 MB   814 kB/s
+           data_sent......................: 13 MB   192 kB/s
+           http_req_blocked...............: avg=31.29µs  min=0s      med=0s      max=194.65ms p(90)=1µs      p(95)=1µs     
+           http_req_connecting............: avg=6.18µs   min=0s      med=0s      max=16.57ms  p(90)=0s       p(95)=0s      
+      ✓ http_req_duration..............: avg=37.69ms  min=2.72ms  med=19.5ms  max=351.42ms p(90)=98.62ms  p(95)=123.52ms
+      { expected_response:true }...: avg=37.69ms  min=2.72ms  med=19.5ms  max=351.42ms p(90)=98.62ms  p(95)=123.52ms
+      http_req_failed................: 0.00%   ✓ 0           ✗ 109990
+      http_req_receiving.............: avg=38.53µs  min=4µs     med=16µs    max=15.67ms  p(90)=58µs     p(95)=101µs   
+      http_req_sending...............: avg=48.88µs  min=8µs     med=36µs    max=15.21ms  p(90)=74µs     p(95)=102µs   
+      http_req_tls_handshaking.......: avg=23.08µs  min=0s      med=0s      max=46.46ms  p(90)=0s       p(95)=0s      
+      http_req_waiting...............: avg=37.6ms   min=0s      med=19.4ms  max=351.32ms p(90)=98.55ms  p(95)=123.43ms
+      http_reqs......................: 109990  1570.240405/s
+      iteration_duration.............: avg=189.03ms min=37.37ms med=184.2ms max=619.63ms p(90)=326.14ms p(95)=360.64ms
+      iterations.....................: 21998   314.048081/s
+      vus............................: 11      min=1         max=100
+      vus_max........................: 100     min=100       max=100
       ```
   
     - Stress Test
-      ```
-        execution: local
-        script: subway-k6-test.js
-        output: -
-      
-        scenarios: (100.00%) 1 scenario, 400 max VUs, 1m40s max duration (incl. graceful stop):
-        * default: Up to 400 looping VUs for 1m10s over 7 stages (gracefulRampDown: 30s, gracefulStop: 30s)
-      
-      
-      running (1m10.3s), 000/400 VUs, 9260 complete and 0 interrupted iterations
-      default ✓ [======================================] 000/400 VUs  1m10s
-      
-           ✓ main status was 200
-           ✓ join status was 201
-           ✓ login status was 200
-           ✓ favorite status was 200
-           ✓ path status was 200
-      
-           checks.........................: 100.00% ✓ 46300      ✗ 0    
-           data_received..................: 26 MB   363 kB/s
-           data_sent......................: 5.8 MB  83 kB/s
-           http_req_blocked...............: avg=165.29µs min=0s      med=0s       max=232.52ms p(90)=1µs      p(95)=1µs  
-           http_req_connecting............: avg=32.52µs  min=0s      med=0s       max=14.31ms  p(90)=0s       p(95)=0s   
-           http_req_duration..............: avg=347.96ms min=2.18ms  med=109.32ms max=3.68s    p(90)=984.76ms p(95)=1.12s
-             { expected_response:true }...: avg=347.96ms min=2.18ms  med=109.32ms max=3.68s    p(90)=984.76ms p(95)=1.12s
-           http_req_failed................: 0.00%   ✓ 0          ✗ 46300
-           http_req_receiving.............: avg=16.86µs  min=5µs     med=13µs     max=12.12ms  p(90)=20µs     p(95)=31µs 
-           http_req_sending...............: avg=35.06µs  min=9µs     med=31µs     max=3.08ms   p(90)=51µs     p(95)=64µs 
-           http_req_tls_handshaking.......: avg=127.21µs min=0s      med=0s       max=85.75ms  p(90)=0s       p(95)=0s   
-           http_req_waiting...............: avg=347.91ms min=2.15ms  med=109.28ms max=3.68s    p(90)=984.71ms p(95)=1.12s
-           http_reqs......................: 46300   658.859499/s
-           iteration_duration.............: avg=1.74s    min=75.72ms med=1.77s    max=6.29s    p(90)=3.16s    p(95)=3.38s
-           iterations.....................: 9260    131.7719/s
-           vus............................: 55      min=5        max=400
-           vus_max........................: 400     min=400      max=400
-      ```
+      - 1500 VUs
+        ```
+        {duration: '10s', target: 10},
+        {duration: '10s', target: 1000},
+        {duration: '10s', target: 2000},
+        {duration: '10s', target: 3000},
+        {duration: '10s', target: 3000},
+        {duration: '10s', target: 1500},
+        {duration: '10s', target: 10},
+        ```
+        - 모두 성공하지만 요청의 99%가 1.5초 안에 응답해야 하는 임계값 평가에서 실패
+        ```
+          execution: local
+          script: subway-k6-test.js
+          output: -
+        
+          scenarios: (100.00%) 1 scenario, 3000 max VUs, 1m40s max duration (incl. graceful stop):
+          * default: Up to 3000 looping VUs for 1m10s over 7 stages (gracefulRampDown: 30s, gracefulStop: 30s)
+        
+        
+        running (1m21.6s), 0000/3000 VUs, 8109 complete and 0 interrupted iterations
+        default ↓ [======================================] 1954/3000 VUs  1m10s
+        
+             ✓ main status was 200
+             ✓ join status was 201
+             ✓ login status was 200
+             ✓ favorite status was 200
+             ✓ path status was 200
+        
+             checks.........................: 100.00% ✓ 40545      ✗ 0     
+             data_received..................: 76 MB   935 kB/s
+             data_sent......................: 12 MB   148 kB/s
+             http_req_blocked...............: avg=66.95ms  min=0s      med=0s     max=1.2s     p(90)=83.01ms p(95)=591.88ms
+             http_req_connecting............: avg=1.76ms   min=0s      med=0s     max=97.96ms  p(90)=6.07ms  p(95)=7.12ms  
+        ✗ http_req_duration..............: avg=3.41s    min=2.69ms  med=2.46s  max=24.28s   p(90)=8.53s   p(95)=11.39s  
+        { expected_response:true }...: avg=3.41s    min=2.69ms  med=2.46s  max=24.28s   p(90)=8.53s   p(95)=11.39s  
+        http_req_failed................: 0.00%   ✓ 0          ✗ 40545
+        http_req_receiving.............: avg=226.39µs min=5µs     med=52µs   max=22.67ms  p(90)=370µs   p(95)=928µs   
+        http_req_sending...............: avg=462.51µs min=10µs    med=56µs   max=959.92ms p(90)=216µs   p(95)=347µs   
+        http_req_tls_handshaking.......: avg=65.12ms  min=0s      med=0s     max=1.19s    p(90)=73.74ms p(95)=585.41ms
+        http_req_waiting...............: avg=3.41s    min=1.99ms  med=2.46s  max=24.28s   p(90)=8.53s   p(95)=11.39s  
+        http_reqs......................: 40545   497.113237/s
+        iteration_duration.............: avg=17.38s   min=86.77ms med=17.01s max=46.6s    p(90)=33.04s  p(95)=38.5s   
+        iterations.....................: 8109    99.422647/s
+        vus............................: 49      min=1        max=3000
+        vus_max........................: 3000    min=3000     max=3000
+        
+        ERRO[0083] some thresholds have failed
+        ```
+        
+      - 600 VUs
+        ```
+        {duration: '10s', target: 10},
+        {duration: '10s', target: 200},
+        {duration: '10s', target: 400},
+        {duration: '10s', target: 600},
+        {duration: '10s', target: 600},
+        {duration: '10s', target: 300},
+        {duration: '10s', target: 10},
+        ```
+        - 모두 성공하지만 요청의 99%가 1.5초 안에 응답해야 하는 임계값 평가에서 실패
+        ```
+          execution: local
+          script: subway-k6-test.js
+          output: -
+        
+          scenarios: (100.00%) 1 scenario, 600 max VUs, 1m40s max duration (incl. graceful stop):
+          * default: Up to 600 looping VUs for 1m10s over 7 stages (gracefulRampDown: 30s, gracefulStop: 30s)
+        
+        
+        running (1m10.1s), 000/600 VUs, 9851 complete and 0 interrupted iterations
+        default ✓ [======================================] 000/600 VUs  1m10s
+        
+             ✓ main status was 200
+             ✓ join status was 201
+             ✓ login status was 200
+             ✓ favorite status was 200
+             ✓ path status was 200
+        
+             checks.........................: 100.00% ✓ 49255      ✗ 0    
+             data_received..................: 36 MB   518 kB/s
+             data_sent......................: 7.4 MB  106 kB/s
+             http_req_blocked...............: avg=1.16ms   min=0s      med=0s       max=305.92ms p(90)=1µs   p(95)=2µs  
+             http_req_connecting............: avg=268.44µs min=0s      med=0s       max=46.44ms  p(90)=0s    p(95)=0s   
+        ✗ http_req_duration..............: avg=443.63ms min=2.44ms  med=126.27ms max=6.41s    p(90)=1.26s p(95)=1.52s
+        { expected_response:true }...: avg=443.63ms min=2.44ms  med=126.27ms max=6.41s    p(90)=1.26s p(95)=1.52s
+        http_req_failed................: 0.00%   ✓ 0          ✗ 49255
+        http_req_receiving.............: avg=37.44µs  min=4µs     med=15µs     max=27.16ms  p(90)=49µs  p(95)=70µs
+        http_req_sending...............: avg=67.85µs  min=9µs     med=34µs     max=76.83ms  p(90)=74µs  p(95)=100µs
+        http_req_tls_handshaking.......: avg=872.53µs min=0s      med=0s       max=57.52ms  p(90)=0s    p(95)=0s   
+        http_req_waiting...............: avg=443.52ms min=0s      med=126.2ms  max=6.41s    p(90)=1.26s p(95)=1.52s
+        http_reqs......................: 49255   702.606021/s
+        iteration_duration.............: avg=2.22s    min=67.38ms med=2.14s    max=9.06s    p(90)=4.12s p(95)=4.55s
+        iterations.....................: 9851    140.521204/s
+        vus............................: 15      min=1        max=600
+        vus_max........................: 600     min=600      max=600
+        
+        ERRO[0071] some thresholds have failed
+        ```
+        
+      - 500 VUs
+        ```
+        {duration: '10s', target: 10},
+        {duration: '10s', target: 100},
+        {duration: '10s', target: 300},
+        {duration: '10s', target: 500},
+        {duration: '10s', target: 500},
+        {duration: '10s', target: 300},
+        {duration: '10s', target: 10},
+        ```
+        ```
+          execution: local
+          script: subway-k6-test.js
+          output: -
+        
+          scenarios: (100.00%) 1 scenario, 500 max VUs, 1m40s max duration (incl. graceful stop):
+          * default: Up to 500 looping VUs for 1m10s over 7 stages (gracefulRampDown: 30s, gracefulStop: 30s)
+        
+        
+        running (1m10.1s), 000/500 VUs, 11825 complete and 0 interrupted iterations
+        default ✓ [======================================] 000/500 VUs  1m10s
+        
+             ✓ main status was 200
+             ✓ join status was 201
+             ✓ login status was 200
+             ✓ favorite status was 200
+             ✓ path status was 200
+        
+             checks.........................: 100.00% ✓ 59125      ✗ 0    
+             data_received..................: 38 MB   536 kB/s
+             data_sent......................: 8.1 MB  116 kB/s
+             http_req_blocked...............: avg=692.79µs min=0s      med=0s      max=186.72ms p(90)=1µs      p(95)=1µs  
+             http_req_connecting............: avg=153.09µs min=0s      med=0s      max=37.16ms  p(90)=0s       p(95)=0s   
+        ✓ http_req_duration..............: avg=279.03ms min=2.44ms  med=62.15ms max=2.54s    p(90)=812.32ms p(95)=1.06s
+        { expected_response:true }...: avg=279.03ms min=2.44ms  med=62.15ms max=2.54s    p(90)=812.32ms p(95)=1.06s
+        http_req_failed................: 0.00%   ✓ 0          ✗ 59125
+        http_req_receiving.............: avg=27.79µs  min=4µs     med=14µs    max=18.3ms   p(90)=39µs     p(95)=57µs
+        http_req_sending...............: avg=47.69µs  min=8µs     med=32µs    max=103.99ms p(90)=60µs     p(95)=79µs
+        http_req_tls_handshaking.......: avg=527.35µs min=0s      med=0s      max=70.29ms  p(90)=0s       p(95)=0s   
+        http_req_waiting...............: avg=278.95ms min=2.39ms  med=62.08ms max=2.54s    p(90)=812.26ms p(95)=1.06s
+        http_reqs......................: 59125   843.826479/s
+        iteration_duration.............: avg=1.39s    min=57.05ms med=1.29s   max=4.85s    p(90)=2.79s    p(95)=3.08s
+        iterations.....................: 11825   168.765296/s
+        vus............................: 13      min=1        max=500
+        vus_max........................: 500     min=500      max=500
+        ```
   
     </details>
     
@@ -253,7 +362,7 @@
     ```
     </details>
 
-- WAS 성능 개선하기
+- 가 성능 개선하기
   - [x] Spring Data Cache
     - local redis 실행
       <details>
@@ -269,6 +378,14 @@
       - 노선 목록 조회
       - 노선 조회
       - 경로 조회
+  
+  - [x] 응답 압축
+
+  - [x] 정적 자원
+    - 모든 정적 자원에 대해 no-cache, private 설정
+      - 확장자는 css인 경우는 max-age를 1년, js인 경우는 no-cache, private 설정
+    - 모든 정적 자원에 대해 ETag 를 설정해서 캐시 적용
+    - 테스트 코드를 통해 검증
 
 - Scale out - 초간단 Blue-Green 배포 구성하기
   - [nomad](https://learn.hashicorp.com/nomad) & [consul](https://learn.hashicorp.com/consul)
@@ -585,6 +702,8 @@
         }
         ...
         ```
+      - template 으로 로드 밸런서 설정 파일을 구성
+        - 서비스 엔드포인트 중 하나의 상태가 변경되면 즉시 알림을 받고 정상적인 서비스 인스턴스만 포함하는 새 로드 밸런서 구성 파일을 다시 렌더링해서 변경 내용이 적용됨
   </details>
 
 

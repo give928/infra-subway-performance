@@ -21,14 +21,18 @@ export const options = {
 
     // Stress Test
     /*stages: [
-        {duration: '10s', target: 50},
-        {duration: '10s', target: 200},
+        {duration: '10s', target: 10},
+        {duration: '10s', target: 100},
         {duration: '10s', target: 300},
-        {duration: '10s', target: 400},
-        {duration: '10s', target: 400},
-        {duration: '10s', target: 200},
-        {duration: '10s', target: 50},
+        {duration: '10s', target: 500},
+        {duration: '10s', target: 500},
+        {duration: '10s', target: 300},
+        {duration: '10s', target: 10},
     ],*/
+
+    thresholds: {
+        http_req_duration: ["p(99)<1500"], // 99% of requests must complete below 1.5s
+    },
 };
 
 export default function () {

@@ -10,7 +10,7 @@ import javax.annotation.PreDestroy;
 
 @Profile({"local", "test"})
 @Configuration
-public class RedisConfiguration {
+public class EmbeddedRedisConfig {
     @Value("${spring.redis.port}")
     private int redisPort;
 
@@ -18,7 +18,10 @@ public class RedisConfiguration {
 
     @PostConstruct
     public void redisServer() {
-        redisServer = new RedisServer(redisPort);
+        redisServer = RedisServer.builder()
+                .port(redisPort)
+                .setting("maxmemory 256M")
+                .build();
         redisServer.start();
     }
 

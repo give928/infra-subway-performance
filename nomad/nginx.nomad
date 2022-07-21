@@ -34,28 +34,68 @@ job "nginx" {
         ports = ["https", "http"]
 
         volumes = [
-          "local:/etc/nginx/conf.d",
+          "local/nginx.conf:/etc/nginx/nginx.conf",
+          "local/cert.pem:/etc/nginx/cert.pem",
+          "local/key.pem:/etc/nginx/key.pem",
+          "local/conf.d:/etc/nginx/conf.d"
         ]
       }
 
       template {
         data = <<EOF
-gzip on;
-gzip_disable "msie6";
-gzip_vary on;
-gzip_proxied any;
-gzip_comp_level 9;
-gzip_buffers 16 8k;
-gzip_http_version 1.1;
-gzip_min_length 256;
-gzip_types text/plain text/css application/json application/x-javascript application/javascript text/xml application/xml application/rss+xml text/javascript image/svg+xml application/vnd.ms-fontobject application/x-font-ttf font/opentype;
+user  nginx;
+worker_processes  auto;
 
-## Proxy 캐시 파일 경로, 메모리상 점유할 크기, 캐시 유지기간, 전체 캐시의 최대 크기 등 설정
-proxy_cache_path /etc/nginx/cache levels=1:2 keys_zone=cache_zone:32m inactive=10m max_size=256m;
+error_log  /var/log/nginx/error.log notice;
+pid        /var/run/nginx.pid;
 
-## 캐시를 구분하기 위한 Key 규칙
-proxy_cache_key "$scheme$host$request_uri $cookie_user";
+events {
+  worker_connections  2048;
+}
 
+http {
+  include       /etc/nginx/mime.types;
+  default_type  application/octet-stream;
+
+  log_format  main  '$remote_addr - $remote_user [$time_local] "$request" '
+                    '$status $body_bytes_sent "$http_referer" '
+                    '"$http_user_agent" "$http_x_forwarded_for"';
+
+  access_log  /var/log/nginx/access.log  main;
+
+  sendfile        on;
+  #tcp_nopush     on;
+
+  keepalive_timeout  65;
+
+  #gzip  on;
+  gzip on;
+  gzip_disable "msie6";
+  gzip_vary on;
+  gzip_proxied any;
+  gzip_comp_level 9;
+  gzip_buffers 16 8k;
+  gzip_http_version 1.1;
+  gzip_min_length 256;
+  gzip_types text/plain text/css application/json application/x-javascript application/javascript text/xml application/xml application/rss+xml text/javascript image/svg+xml application/vnd.ms-fontobject application/x-font-ttf font/opentype;
+
+  ## Proxy 캐시 파일 경로, 메모리상 점유할 크기, 캐시 유지기간, 전체 캐시의 최대 크기 등 설정
+  proxy_cache_path /etc/nginx/cache levels=1:2 keys_zone=cache_zone:32m inactive=10m max_size=256m;
+
+  ## 캐시를 구분하기 위한 Key 규칙
+  proxy_cache_key "$scheme$host$request_uri $cookie_user";
+
+  include /etc/nginx/conf.d/*.conf;
+}
+EOF
+
+        destination   = "local/nginx.conf"
+        change_mode   = "signal"
+        change_signal = "SIGHUP"
+      }
+
+      template {
+        data = <<EOF
 upstream backend {
 {{ range service "subway" }}  server {{ .Address }}:{{ .Port }};
 {{ else }}server 127.0.0.1:65535; # force a 502{{ end }}}
@@ -63,16 +103,16 @@ upstream backend {
 # Redirect all traffic to HTTPS
 server {
   listen 80;
-  server_name localhost;
+  server_name give928.asuscomm.com;
   return 301 https://$host$request_uri;
 }
 
 server {
   listen 443 ssl http2;
-  server_name localhost;
+  server_name give928.asuscomm.com;
 
-  ssl_certificate /etc/nginx/conf.d/cert.pem;
-  ssl_certificate_key /etc/nginx/conf.d/key.pem;
+  ssl_certificate /etc/nginx/cert.pem;
+  ssl_certificate_key /etc/nginx/key.pem;
 
   # Disable SSL
   ssl_protocols TLSv1 TLSv1.1 TLSv1.2;
@@ -115,7 +155,7 @@ server {
 }
 EOF
 
-        destination   = "local/load-balancer.conf"
+        destination   = "local/conf.d/load-balancer.conf"
         change_mode   = "signal"
         change_signal = "SIGHUP"
       }
@@ -135,7 +175,7 @@ EOF
       }
 
       resources {
-        cpu    = 1000 # MHz
+        cpu    = 2000 # MHz
         memory = 2048 # MB
       }
     }

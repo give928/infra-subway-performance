@@ -49,11 +49,9 @@ worker_processes  auto;
 error_log  /var/log/nginx/error.log notice;
 pid        /var/run/nginx.pid;
 
-
 events {
   worker_connections  2048;
 }
-
 
 http {
   include       /etc/nginx/mime.types;

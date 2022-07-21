@@ -6,6 +6,12 @@ spring:
     redis:
       time-to-live: 60s
 
+server:
+  compression:
+    enabled: true
+    mime-types: text/html,text/plain,text/css,text/javascript,application/javascript,application/json
+    min-response-size: 512
+
 cache:
   subway:
     lines:

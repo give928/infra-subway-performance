@@ -1,5 +1,6 @@
 package nextstep.subway.map.application;
 
+import nextstep.subway.common.annotation.LoggingMethod;
 import nextstep.subway.line.application.LineService;
 import nextstep.subway.line.domain.Line;
 import nextstep.subway.map.domain.SubwayPath;
@@ -26,6 +27,7 @@ public class MapService {
         this.pathService = pathService;
     }
 
+    @LoggingMethod(json = true)
     @Cacheable(value = "find-path", key = "{#source, #target}")
     public PathResponse findPath(Long source, Long target) {
         List<Line> lines = lineService.findLines();

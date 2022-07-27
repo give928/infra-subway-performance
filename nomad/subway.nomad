@@ -39,13 +39,20 @@ job "subway" {
 SPRING_REDIS_HOST={{ .Address }}
 SPRING_REDIS_PORT={{ .Port }}
 {{ end }}
-{{ range service "database-mysql" }}
-MYSQL_HOST={{ .Address }}
-MYSQL_PORT={{ .Port }}
+{{ range service "database-mysql-master" }}
+MYSQL_MASTER_HOST={{ .Address }}
+MYSQL_MASTER_PORT={{ .Port }}
 {{ end }}
-MYSQL_DATABASE=subway
-MYSQL_USERNAME=root
-MYSQL_PASSWORD=password1!
+MYSQL_MASTER_DATABASE=subway
+MYSQL_MASTER_USERNAME=subway
+MYSQL_MASTER_PASSWORD=subway_password
+{{ range service "database-mysql-slave" }}
+MYSQL_SLAVE_HOST={{ .Address }}
+MYSQL_SLAVE_PORT={{ .Port }}
+{{ end }}
+MYSQL_SLAVE_DATABASE=subway
+MYSQL_SLAVE_USERNAME=subway
+MYSQL_SLAVE_PASSWORD=subway_password
 EOF
         destination = "local/env"
         env         = true

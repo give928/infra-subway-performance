@@ -6,6 +6,7 @@ import nextstep.subway.station.dto.StationRequest;
 import nextstep.subway.station.dto.StationResponse;
 import org.springframework.cache.annotation.CacheEvict;
 import org.springframework.cache.annotation.Cacheable;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -21,7 +22,7 @@ public class StationService {
         this.stationRepository = stationRepository;
     }
 
-    @CacheEvict(value = "stations", allEntries = true)
+    @CacheEvict(value = {"stations", "lines", "line-responses", "line", "line-response", "find-path"}, allEntries = true)
     @Transactional
     public StationResponse saveStation(StationRequest stationRequest) {
         Station persistStation = stationRepository.save(stationRequest.toStation());
@@ -37,7 +38,15 @@ public class StationService {
                 .collect(Collectors.toList());
     }
 
-    @CacheEvict(value = "stations", allEntries = true)
+    @Cacheable(value = "stations", key = "{#id, #pageable.pageSize}", unless = "#result.isEmpty()")
+    public List<StationResponse> findStations(Long id, Pageable pageable) {
+        return stationRepository.findStations(id, pageable)
+                .stream()
+                .map(StationResponse::of)
+                .collect(Collectors.toList());
+    }
+
+    @CacheEvict(value = {"stations", "lines", "line-responses", "line", "line-response", "find-path"}, allEntries = true)
     @Transactional
     public void deleteStationById(Long id) {
         stationRepository.deleteById(id);

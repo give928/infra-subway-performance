@@ -50,7 +50,7 @@ error_log  /var/log/nginx/error.log notice;
 pid        /var/run/nginx.pid;
 
 events {
-  worker_connections  2048;
+  worker_connections  4096;
 }
 
 http {
@@ -68,19 +68,13 @@ http {
 
   keepalive_timeout  65;
 
-  #gzip  on;
   gzip on;
-  gzip_disable "msie6";
   gzip_vary on;
-  gzip_proxied any;
   gzip_comp_level 9;
-  gzip_buffers 16 8k;
-  gzip_http_version 1.1;
-  gzip_min_length 256;
   gzip_types text/plain text/css application/json application/x-javascript application/javascript text/xml application/xml application/rss+xml text/javascript image/svg+xml application/vnd.ms-fontobject application/x-font-ttf font/opentype;
 
   ## Proxy 캐시 파일 경로, 메모리상 점유할 크기, 캐시 유지기간, 전체 캐시의 최대 크기 등 설정
-  proxy_cache_path /etc/nginx/cache levels=1:2 keys_zone=cache_zone:32m inactive=10m max_size=256m;
+  proxy_cache_path /etc/nginx/cache levels=1:2 keys_zone=cache_zone:16m inactive=16m max_size=256m;
 
   ## 캐시를 구분하기 위한 Key 규칙
   proxy_cache_key "$scheme$host$request_uri $cookie_user";
@@ -97,19 +91,18 @@ EOF
       template {
         data = <<EOF
 upstream backend {
-{{ range service "subway" }}  server {{ .Address }}:{{ .Port }};
-{{ else }}server 127.0.0.1:65535; # force a 502{{ end }}}
+  least_conn; ## 현재 connection 이 가장 적은 server 로 reqeust 를 분배
+{{ range service "subway" }}  server {{ .Address }}:{{ .Port }} max_fails=3 fail_timeout=3s;
+{{ else }}server 127.0.0.1:65535 max_fails=3 fail_timeout=3s;{{ end }}}
 
 # Redirect all traffic to HTTPS
 server {
   listen 80;
-  server_name give928.asuscomm.com;
   return 301 https://$host$request_uri;
 }
 
 server {
   listen 443 ssl http2;
-  server_name give928.asuscomm.com;
 
   ssl_certificate /etc/nginx/cert.pem;
   ssl_certificate_key /etc/nginx/key.pem;
@@ -130,11 +123,13 @@ server {
   ssl_session_cache shared:SSL:10m;
   ssl_session_timeout 10m;
 
+  ## proxy_set_header :  뒷단 서버로 전송될 헤더 값을 다시 정의해주는 지시어
+  proxy_set_header Upgrade $http_upgrade;
+  proxy_set_header Connection 'upgrade';
+  proxy_set_header Host $host;
+
   location / {
     proxy_pass http://backend;
-    proxy_set_header Upgrade $http_upgrade;
-    proxy_set_header Connection 'upgrade';
-    proxy_set_header Host $host;
   }
 
   location ~* \.(?:css|js|gif|png|jpg|jpeg)$ {

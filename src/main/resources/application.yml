@@ -5,6 +5,11 @@ spring:
     type: redis
     redis:
       time-to-live: 60s
+  data:
+    web:
+      pageable:
+        default-page-size: 10
+        max-page-size: 100
 
 server:
   compression:

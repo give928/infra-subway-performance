@@ -29,7 +29,7 @@ public class LineService {
         this.stationService = stationService;
     }
 
-    @CacheEvict(value = {"lines", "line-responses"}, allEntries = true)
+    @CacheEvict(value = {"lines", "line-responses", "find-path"}, allEntries = true)
     @Transactional
     public LineResponse saveLine(LineRequest request) {
         Station upStation = stationService.findById(request.getUpStationId());
@@ -62,7 +62,8 @@ public class LineService {
     }
 
     @Caching(put = {@CachePut(value = "line", key = "#id")},
-            evict = {@CacheEvict(value = {"lines", "line-responses"}), @CacheEvict(value = "line-response", key = "#id")})
+            evict = {@CacheEvict(value = {"lines", "line-responses", "find-path"}, allEntries = true),
+                    @CacheEvict(value = "line-response", key = "#id")})
     @Transactional
     public Line updateLine(Long id, LineRequest lineUpdateRequest) {
         Line persistLine = lineRepository.findById(id).orElseThrow(RuntimeException::new);
@@ -70,13 +71,15 @@ public class LineService {
         return persistLine;
     }
 
-    @Caching(evict = {@CacheEvict(value = {"lines", "line-responses"}), @CacheEvict(value = {"line", "line-response"}, key = "#id")})
+    @Caching(evict = {@CacheEvict(value = {"lines", "line-responses", "find-path"}, allEntries = true),
+            @CacheEvict(value = {"line", "line-response"}, key = "#id")})
     @Transactional
     public void deleteLineById(Long id) {
         lineRepository.deleteById(id);
     }
 
-    @Caching(evict = {@CacheEvict(value = {"lines"}), @CacheEvict(value = {"line", "line-response"}, key = "#lineId")})
+    @Caching(evict = {@CacheEvict(value = {"lines", "line-responses", "find-path"}, allEntries = true),
+            @CacheEvict(value = {"line", "line-response"}, key = "#lineId")})
     @Transactional
     public void addLineStation(Long lineId, SectionRequest request) {
         Line line = findLineById(lineId);
@@ -85,7 +88,8 @@ public class LineService {
         line.addLineSection(upStation, downStation, request.getDistance());
     }
 
-    @Caching(evict = {@CacheEvict(value = {"lines"}), @CacheEvict(value = {"line", "line-response"}, key = "#lineId")})
+    @Caching(evict = {@CacheEvict(value = {"lines", "line-responses", "find-path"}, allEntries = true),
+            @CacheEvict(value = {"line", "line-response"}, key = "#lineId")})
     @Transactional
     public void removeLineStation(Long lineId, Long stationId) {
         Line line = findLineById(lineId);

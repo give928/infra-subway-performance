@@ -412,3 +412,7 @@ workbench를 설치한 후 localhost:13306 (ID : root, PW : masterpw) 로 접속
       # 0.072 sec / 0.000014 sec
       ```
       ![](subway/05_after.png)
+
+### 구현
+- [x] 페이징 쿼리
+- [x] MySQL Replication with JPA
